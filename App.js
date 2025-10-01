@@ -228,77 +228,81 @@ export default function App() {
         <Text style={styles.subtitle}>Gerencie sua guilda de aventureiros</Text>
       </View>
       
-      <View style={styles.form}>
-        <Text style={styles.formTitle}>Adicionar Novo Personagem</Text>
-        
-        <TextInput
-          style={styles.input}
-          placeholder="Nome do personagem"
-          value={name}
-          onChangeText={setName}
-        />
-        
-        <TextInput
-          style={styles.input}
-          placeholder="Classe (ex: Guerreiro, Mago...)"
-          value={characterClass}
-          onChangeText={setCharacterClass}
-        />
-        
-        <TextInput
-          style={styles.input}
-          placeholder="Nível (1-100)"
-          value={level}
-          onChangeText={setLevel}
-          keyboardType="numeric"
-        />
-        
-        <TouchableOpacity style={styles.addButton} onPress={addCharacter}>
-          <Text style={styles.addButtonText}>Adicionar Personagem</Text>
-        </TouchableOpacity>
-      </View>
-      
-      <View style={styles.filterContainer}>
-        <Text style={styles.filterTitle}>
-          Filtros - {recruitedCount}/{characters.length} recrutados
-        </Text>
-        
-        <View style={styles.filterButtons}>
-          <TouchableOpacity 
-            style={[styles.filterButton, filter === 'all' && styles.activeFilter]}
-            onPress={() => setFilter('all')}
-          >
-            <Text style={[styles.filterText, filter === 'all' && styles.activeFilterText]}>
-              Todos
-            </Text>
-          </TouchableOpacity>
-          
-          <TouchableOpacity 
-            style={[styles.filterButton, filter === 'available' && styles.activeFilter]}
-            onPress={() => setFilter('available')}
-          >
-            <Text style={[styles.filterText, filter === 'available' && styles.activeFilterText]}>
-              Disponíveis
-            </Text>
-          </TouchableOpacity>
-          
-          <TouchableOpacity 
-            style={[styles.filterButton, filter === 'recruited' && styles.activeFilter]}
-            onPress={() => setFilter('recruited')}
-          >
-            <Text style={[styles.filterText, filter === 'recruited' && styles.activeFilterText]}>
-              Recrutados
-            </Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-      
       <FlatList
         data={getFilteredCharacters()}
         keyExtractor={(item) => item.id.toString()}
         renderItem={renderCharacter}
-        style={styles.list}
+        style={styles.scrollableContent}
         showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.listContainer}
+        ListHeaderComponent={
+          <View>
+            <View style={styles.form}>
+              <Text style={styles.formTitle}>Adicionar Novo Personagem</Text>
+              
+              <TextInput
+                style={styles.input}
+                placeholder="Nome do personagem"
+                value={name}
+                onChangeText={setName}
+              />
+              
+              <TextInput
+                style={styles.input}
+                placeholder="Classe (ex: Guerreiro, Mago...)"
+                value={characterClass}
+                onChangeText={setCharacterClass}
+              />
+              
+              <TextInput
+                style={styles.input}
+                placeholder="Nível (1-100)"
+                value={level}
+                onChangeText={setLevel}
+                keyboardType="numeric"
+              />
+              
+              <TouchableOpacity style={styles.addButton} onPress={addCharacter}>
+                <Text style={styles.addButtonText}>Adicionar Personagem</Text>
+              </TouchableOpacity>
+            </View>
+            
+            <View style={styles.filterContainer}>
+              <Text style={styles.filterTitle}>
+                Filtros - {recruitedCount}/{characters.length} recrutados
+              </Text>
+              
+              <View style={styles.filterButtons}>
+                <TouchableOpacity 
+                  style={[styles.filterButton, filter === 'all' && styles.activeFilter]}
+                  onPress={() => setFilter('all')}
+                >
+                  <Text style={[styles.filterText, filter === 'all' && styles.activeFilterText]}>
+                    Todos
+                  </Text>
+                </TouchableOpacity>
+                
+                <TouchableOpacity 
+                  style={[styles.filterButton, filter === 'available' && styles.activeFilter]}
+                  onPress={() => setFilter('available')}
+                >
+                  <Text style={[styles.filterText, filter === 'available' && styles.activeFilterText]}>
+                    Disponíveis
+                  </Text>
+                </TouchableOpacity>
+                
+                <TouchableOpacity 
+                  style={[styles.filterButton, filter === 'recruited' && styles.activeFilter]}
+                  onPress={() => setFilter('recruited')}
+                >
+                  <Text style={[styles.filterText, filter === 'recruited' && styles.activeFilterText]}>
+                    Recrutados
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </View>
+        }
       />
       
       <Toast />
@@ -427,8 +431,11 @@ const styles = StyleSheet.create({
   activeFilterText: {
     color: '#fff',
   },
-  list: {
+  scrollableContent: {
     flex: 1,
+  },
+  listContainer: {
+    paddingBottom: 20,
   },
   card: {
     backgroundColor: '#fff',
